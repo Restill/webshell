@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="Xenon Boostrap Admin Panel" />
+	<meta name="author" content="" />
+	<title>WebShell</title>
+    <link rel="stylesheet" href="/static/assets/css/fonts/linecons/css/linecons.css">
+	<link rel="stylesheet" href="/static/assets/css/bootstrap.css">
+	<link rel="stylesheet" href="/static/assets/css/fonts/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/static/assets/css/bootstrap.css">
+	<link rel="stylesheet" href="/static/assets/css/xenon-core.css">
+	<link rel="stylesheet" href="/static/assets/css/xenon-components.css">
+
+	<script src="/static/assets/js/jquery-1.11.1.min.js"></script>
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body class="page-body">
+	<div class="page-container">
+		<div class="sidebar-menu toggle-others fixed">
+			<div class="sidebar-menu-inner">	
+				<header class="logo-env">
+					<div class="logo">
+						<a href="/" class="logo-expanded">
+							<img src="/static/assets/images/logo@2x.png" width="80" alt="" />
+						</a>
+						<a href="/" class="logo-collapsed">
+							<img src="/static/assets/images/logo-collapsed@2x.png" width="40" alt="" />
+						</a>
+					</div>
+					<div class="mobile-menu-toggle visible-xs">
+						<a href="#" data-toggle="user-info-menu">
+							<i class="fa-bell-o"></i>
+							<span class="badge badge-success">7</span>
+						</a>
+						<a href="#" data-toggle="mobile-menu">
+							<i class="fa-bars"></i>
+						</a>
+					</div>
+				</header>
+
+				<ul id="main-menu" class="main-menu">
+                    <li>
+						<a href="/">
+							<i class="linecons-cog"></i>
+							<span class="title">WebShell列表</span>
+						</a>
+					</li>
+					<li>
+						<a href="xiaoma.html">
+							<i class="linecons-desktop"></i>
+							<span class="title">一句话收藏</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="main-content">
+			<nav class="navbar user-info-navbar" role="navigation">
+				<ul class="user-info-menu left-links list-inline list-unstyled">
+					<li class="hidden-sm hidden-xs">
+						<a href="#" data-toggle="sidebar">
+							<i class="fa-bars"></i>
+						</a>
+					</li>
+				</ul>
+				<ul class="user-info-menu right-links list-inline list-unstyled">
+					<li class="dropdown user-profile">
+						<a href="#" data-toggle="dropdown">
+							<img src="/static/assets/images/user-4.png" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
+							<span>
+								MoMo
+								<i class="fa-angle-down"></i>
+							</span>
+						</a>
+                        <ul class="dropdown-menu user-profile-menu list-unstyled">
+							<li>
+								<a href="javascript:" onclick="jQuery('#add').modal('show', {backdrop: 'static'});">
+									<i class="fa-edit">添加</i>
+								</a>
+							</li>
+							<li class="last">
+								<a href="extra-lockscreen.html">
+									<i class="fa-lock"></i>
+									退出
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+
+            <div class="panel panel-default">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="subject">信息：{{ info }}</label>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="subject" id="dir">当前路径：{{ dir }}</label>
+                    </div>
+                </div>
+				<div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="subject">命令:</label>
+                                <input type="text" class="form-control" id="subject" tabindex="1" />
+                                <script>
+                                    $(document).ready(
+                                        function() {
+                                            $("#subject").keydown(function(event) {
+                                                if (event.keyCode == 13) {
+                                                    $.getJSON(
+                                                        "runcommand.html",
+                                                        {
+                                                            'id': "{{ id }}",
+                                                            'cmd': $(subject).val(),
+                                                            'dir': $("#dir").text()
+                                                        },function($jsondata){
+                                                            $("#result").html($jsondata.cmd);
+                                                    });
+                                                }
+                                            })
+                                        }
+                                    );
+                                </script>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">回显:</label>
+                                <textarea id="result" class="form-control wysihtml5" data-html="false" data-color="false" data-stylesheet-url="assets/css/wysihtml5-color.css" name="sample_wysiwyg"></textarea>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+
+			<footer class="main-footer sticky footer-type-1">
+				<div class="footer-inner">
+					<div class="footer-text">
+						&copy; 2017
+						<strong>WebShell</strong> 
+						theme by <a href="http://www.ywclub.org" target="_blank">MoMo</a>
+					</div>
+					<div class="go-up">
+						<a href="#" rel="go-top">
+							<i class="fa-angle-up"></i>
+						</a>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<div class="page-loading-overlay">
+		<div class="loader-2"></div>
+	</div>
+    <div class="modal fade" id="add">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">添加</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">备注</label>
+                                <input type="text" class="form-control" id="remarks" data-validate="required" data-message-required="This is custom message for required field."   placeholder=测试>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-2" class="control-label">链接</label>
+                                <input type="text" class="form-control" id="links" placeholder="http://webshell.ywclub.org/xiaoma.php">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <labtel for="field-4" class="control-label">密码</labtel>
+                                <input type="password" class="form-control" id="passwd" placeholder="******">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-5" class="control-label">类型</label>
+                                <select id="type" class="form-control">
+                                    <option value="PHP">PHP</option>
+                                    <option value="ASP">ASP</option>
+                                    <option value="JSP">JSP</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-info" id="addshell" >保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/assets/js/toastr/toastr.min.js"></script>
+
+    <!-- Imported styles on this page -->
+	<link rel="stylesheet" href="/static/assets/js/datatables/dataTables.bootstrap.css">
+    <script src="/static/assets/js/joinable.js"></script>
+    <script src="/static/assets/js/xenon-widgets.js"></script>
+
+	<script src="/static/assets/js/bootstrap.min.js"></script>
+	<script src="/static/assets/js/TweenMax.min.js"></script>
+	<script src="/static/assets/js/resizeable.js"></script>
+	<script src="/static/assets/js/xenon-toggles.js"></script>
+	<script src="/static/assets/js/devexpress-web-14.1/js/dx.chartjs.js"></script>
+
+    <script src="/static/assets/js/datatables/js/jquery.dataTables.min.js"></script>
+
+    <script src="/static/assets/js/datatables/dataTables.bootstrap.js"></script>
+	<script src="/static/assets/js/datatables/yadcf/jquery.dataTables.yadcf.js"></script>
+	<script src="/static/assets/js/datatables/tabletools/dataTables.tableTools.min.js"></script>
+
+    <script>
+        $('#addshell').click(function(){
+            var remarks = $('#remarks').val();
+            if (remarks == "") {
+                messagebox('提示',"请输入备注");
+                return
+            }
+            var links = $('#links').val();
+            if (links == "") {
+                messagebox('提示',"请输入链接");
+                return
+            }
+            var passwd = $('#passwd').val();
+            if (passwd == "") {
+                messagebox('提示',"请输入密码");
+                return
+            }
+            var type = $('#type').val();
+            this.setAttribute("data-dismiss", "modal");
+            $.getJSON(
+                "add.html",
+                {
+                    'remarks':remarks,
+                    'links':links,
+                    'passwd':passwd,
+                    'type':type
+                },function($jsondata){
+                    var $str_html = "";
+                    $.each($jsondata.webshell, function($index, $val) {
+                        $str_html+= "<tr><td>" + $val.id + "</td><td>" + $val.remarks + "</td><td>" + $val.links + "</td><td>" + $val.type + "</td><td>" + $val.time + "</td><td><select id="+ $val.id +" onclick=\"return getid(this.id)\" ><option value=\"digest\" >----基本功能列表----</option><option value=\"1\" >文件管理</option><option value=\"2\" >执行CMD命令</option><option value=\"3\" >数据库管理</option><option value=\"4\" >注册表管理</option><option value=\"5\" >编辑此WebShell</option><option value=\"6\" >删除此WebShell</option></select></td>"
+                    });
+                    $("#addresult").html($str_html);
+
+                });
+        });
+        function messagebox(title,text){
+            var opts = {
+                    "closeButton": true,
+                    "debug": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "3000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+            };
+            toastr.success(text, title, opts);
+        }
+        function cipang(id) {
+            var id1 = "#" + id;
+            $(id1).change(function(){
+                var dir = $(id1).val();
+                $.getJSON(
+                    "getfile.html",
+                    {
+                        'id': id,
+                        'dir': dir
+                    },function($jsondata){
+                        var $str_html = "";
+                        $.each($jsondata.files, function($index, $val) {
+                            if ($val.isdir == "1") {
+                                $str_html += "<tr><td>" + $val.name + "</td><td>" + $val.time + "</td><td>" + $val.size + "</td><td>" + $val.jurisdiction + "</td><td><a id=\""+ $jsondata.ponypath + $val.name +"\" href=\"javascript:\" onclick=\"return getfile(this.id)\">浏览</a>|编辑|下载|删除</td></tr>";
+                            }else {
+                                $str_html += "<tr><td>" + $val.name + "</td><td>" + $val.time + "</td><td>" + $val.size + "</td><td>" + $val.jurisdiction + "</td><td><a href=\"#\">查看</a>|编辑|下载|删除</td></tr>";
+                            }
+                        });
+                        $("#ponypath").html("当前路径：<input type=\"text\" value=\"" + $jsondata.ponypath + "\">");
+                        $("#fileresult").html($str_html);
+                    }
+                );
+            });
+        }
+        function getfile(id) {
+            $.getJSON(
+                "getfile.html",
+                {
+                    'id': {{ id }} ,
+                    'dir': id
+                },function($jsondata){
+                    var $str_html = "";
+                    $.each($jsondata.files, function($index, $val) {
+                        if ($val.isdir == "1") {
+                            $str_html += "<tr><td>" + $val.name + "</td><td>" + $val.time + "</td><td>" + $val.size + "</td><td>" + $val.jurisdiction + "</td><td><a id=\""+ $jsondata.ponypath + $val.name +"\" href=\"javascript:\" onclick=\"return getfile(this.id)\">浏览</a>|编辑|下载|删除</td></tr>";
+                        }else {
+                            $str_html += "<tr><td>" + $val.name + "</td><td>" + $val.time + "</td><td>" + $val.size + "</td><td>" + $val.jurisdiction + "</td><td><a href=\"#\">查看</a>|编辑|下载|删除</td></tr>";
+                        }
+                    });
+                    $("#ponypath").html("当前路径：<input type=\"text\" value=\"" + $jsondata.ponypath + "\">");
+                    $("#fileresult").html($str_html);
+                }
+            );
+        }
+    </script>
+    <script src="/static/assets/js/xenon-custom.js"></script>
+
+</body>
+</html>
